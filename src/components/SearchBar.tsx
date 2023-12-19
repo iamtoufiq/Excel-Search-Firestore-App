@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -46,7 +46,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar() {
+interface SearchAppBarProps {
+  onSearch: (term: string) => void;
+}
+
+export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
+    onSearch(event.target.value);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    onSearch(""); // Call the parent component's search function with an empty string to reset the search
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -79,11 +95,12 @@ export default function SearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              value={searchInput}
+              onChange={handleSearchChange}
               placeholder="Search by name, gender, or email..."
               inputProps={{ "aria-label": "search" }}
             />
-
-            <CloseIcon />
+            <CloseIcon onClick={handleClearSearch} />
           </Search>
         </Toolbar>
       </AppBar>
