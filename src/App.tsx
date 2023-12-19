@@ -86,22 +86,7 @@ const App: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       <SearchAppBar />
       <InputFileUpload />
-      {/* <TextField
-        label="Search by name, gender, or email"
-        value={searchTerm}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSearchTerm(e.target.value)
-        }
-      /> */}
-      {/* <input type="file" accept=".xlsx" onChange={handleFileUpload} /> */}
-      {/* <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSearch}
-        startIcon={<SearchIcon />}
-      >
-        Search
-      </Button> */}
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -139,7 +124,6 @@ const App: React.FC = () => {
                   <TableCell>{item.last_name ? item.last_name : "-"}</TableCell>
                   <TableCell>{item.gender ? item.gender : "-"}</TableCell>
                   <TableCell>{item.email ? item.email : "-"}</TableCell>
-                  {/* Add other table cells based on your Excel data */}
                 </TableRow>
               ))}
           </TableBody>
