@@ -1,6 +1,9 @@
-// import { collection, addDoc, writeBatch, doc, commitBatch } from "firebase/firestore";
+// utils/firebaseUtils.ts
+
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { db } from "../firebase";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface PostDatatypes {
   __EMPTY?: number;
@@ -27,13 +30,30 @@ export const addPostsToFirebase = async (postData: PostDatatypes[]) => {
     // Commit the batch
     await batch.commit();
 
-    console.log("Posts added successfully");
+    // Display a success toast message
+    toast.success("Excel sheet uploaded successfully", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   } catch (error) {
     console.error("Error adding posts:", error);
+
+    // Display an error toast message
+    toast.error("Error adding posts", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   }
 };
 
-// ============ retrievePostsFromFirebase ===========
 export const retrievePostsFromFirebase = async (): Promise<PostDatatypes[]> => {
   try {
     // Reference to the "posts" collection

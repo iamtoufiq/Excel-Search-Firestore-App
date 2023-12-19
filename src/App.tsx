@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Table from "@mui/material/Table";
 import Button from "@mui/material/Button";
-import { TableContainer } from "@mui/material";
+import { TableContainer, Typography } from "@mui/material";
 import { TableHead } from "@mui/material";
 import { TableRow } from "@mui/material";
 import { TableCell } from "@mui/material";
@@ -21,7 +21,8 @@ import { fetchFirebaseData } from "./utils/utils";
 const App: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const { fetchData, postData } = useDataContext();
+  const { fetchData, postData, state } = useDataContext();
+
   const runOnce = useRef(false);
   // useEffect(() => {
   //   if (runOnce.current) return;
@@ -39,23 +40,23 @@ const App: React.FC = () => {
   //   ]);
   // }, [fetchData, postData]);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  // const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const workbook = XLSX.read(e.target?.result, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-        console.log("app data", excelData);
-        setData(excelData); // Uncomment this line to update the state
-        console.log(excelData);
-      };
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       const workbook = XLSX.read(e.target?.result, { type: "binary" });
+  //       const sheetName = workbook.SheetNames[0];
+  //       const excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+  //       console.log("app data", excelData);
+  //       setData(excelData); // Uncomment this line to update the state
+  //       console.log(excelData);
+  //     };
 
-      reader.readAsBinaryString(file);
-    }
-  };
+  //     reader.readAsBinaryString(file);
+  //   }
+  // };
 
   const handleSearch = () => {
     // Filter data based on search term
@@ -74,52 +75,73 @@ const App: React.FC = () => {
     runOnce.current = !runOnce.current;
     const fetchFirebaseDataAndSetState = async () => {
       const firebaseData = await fetchFirebaseData();
-      setData(firebaseData);
+      await fetchData();
+      // setData(firebaseData);
     };
 
     fetchFirebaseDataAndSetState();
   }, []);
+  console.log("thsi s nafi", state?.data);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       <SearchAppBar />
       <InputFileUpload />
-      <TextField
+      {/* <TextField
         label="Search by name, gender, or email"
         value={searchTerm}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setSearchTerm(e.target.value)
         }
-      />
-      <input type="file" accept=".xlsx" onChange={handleFileUpload} />
-      <Button
+      /> */}
+      {/* <input type="file" accept=".xlsx" onChange={handleFileUpload} /> */}
+      {/* <Button
         variant="contained"
         color="primary"
         onClick={handleSearch}
         startIcon={<SearchIcon />}
       >
         Search
-      </Button>
+      </Button> */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>Gender</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  First Name
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  Last Name
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  Gender
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  Email
+                </Typography>
+              </TableCell>
               {/* Add other table headers based on your Excel data */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>{item.first_name ? item.first_name : "-"}</TableCell>
-                <TableCell>{item.last_name ? item.last_name : "-"}</TableCell>
-                <TableCell>{item.gender ? item.gender : "-"}</TableCell>
-                <TableCell>{item.email ? item.email : "-"}</TableCell>
-                {/* Add other table cells based on your Excel data */}
-              </TableRow>
-            ))}
+            {state?.data &&
+              state?.data.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    {item.first_name ? item.first_name : "-"}
+                  </TableCell>
+                  <TableCell>{item.last_name ? item.last_name : "-"}</TableCell>
+                  <TableCell>{item.gender ? item.gender : "-"}</TableCell>
+                  <TableCell>{item.email ? item.email : "-"}</TableCell>
+                  {/* Add other table cells based on your Excel data */}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
