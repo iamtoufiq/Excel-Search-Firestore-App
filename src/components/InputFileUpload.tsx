@@ -37,12 +37,11 @@ const InputFileUpload: React.FC<InputFileUploadProps> = ({
   selectedOption,
 }) => {
   const { fetchData } = useDataContext();
-  console.log("final check ing", selectedOption);
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
-    console.log("this is", "handleFileUpload");
+
     if (file) {
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -51,13 +50,8 @@ const InputFileUpload: React.FC<InputFileUploadProps> = ({
         const excelData: PostDatatypes[] = XLSX.utils.sheet_to_json(
           workbook.Sheets[sheetName]
         );
-
         await addPostsToFirebase(excelData);
-
-        // Fetch data from Firebase
         fetchData();
-
-        // Clear the input value to allow selecting the same file again
         event.target.value = "";
       };
 
@@ -73,7 +67,6 @@ const InputFileUpload: React.FC<InputFileUploadProps> = ({
     },
   });
   const handleButtonClick = () => {
-    // Trigger click on the hidden input when the button is clicked
     const fileInput = document.getElementById("file-input");
     fileInput?.click();
   };
@@ -86,7 +79,6 @@ const InputFileUpload: React.FC<InputFileUploadProps> = ({
         onClick={handleButtonClick}
       >
         Upload file
-        {/* {selectedOption === "male" ? "start" : "end"} */}
       </FullWidthButton>
       <VisuallyHiddenInput
         id="file-input"

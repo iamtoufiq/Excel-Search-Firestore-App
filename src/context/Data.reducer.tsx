@@ -10,19 +10,16 @@ interface SetLoadingAction {
 
 interface SetDataAction {
   type: "SET_DATA";
-  payload: PostDatatypes[]; // Replace YourDataType with the actual data type
+  payload: PostDatatypes[];
 }
 
-// Create a union type for all possible actions
 export type Actions = SetLoadingAction | SetDataAction;
 
-// Define the initial state
 export interface InitialState {
   loading: boolean;
-  data: PostDatatypes[]; // Replace YourDataType with the actual data type
+  data: PostDatatypes[];
 }
 
-// Define the reducer function
 export const reducer = (state: InitialState, action: Actions): InitialState => {
   switch (action.type) {
     case "SET_LOADING":

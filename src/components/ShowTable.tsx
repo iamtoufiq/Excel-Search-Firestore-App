@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Paper,
 } from "@mui/material";
-import { Paper } from "@mui/material";
 import { useDataContext } from "../context/DataContext";
 import { styled } from "@mui/system";
 
@@ -28,6 +28,28 @@ const ShowTable = ({
   selectedOption: string;
 }) => {
   const { state } = useDataContext();
+
+  const filteredData = state.data.filter((item) => {
+    if (item?.first_name && item?.last_name && item?.gender && item?.email) {
+      const matchesSearch =
+        item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesGender =
+        selectedOption === "all" ||
+        (selectedOption === "male" && item.gender.toLowerCase() === "male") ||
+        (selectedOption === "female" &&
+          item.gender.toLowerCase() === "female") ||
+        (selectedOption === "other" &&
+          item.gender.toLowerCase() !== "male" &&
+          item.gender.toLowerCase() !== "female");
+
+      return matchesSearch && matchesGender;
+    }
+    return false;
+  });
 
   return (
     <TableContainer component={Paper}>
@@ -61,50 +83,31 @@ const ShowTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.data.map((item, index) => {
-            if (
-              item?.first_name &&
-              item?.last_name &&
-              item?.gender &&
-              item?.email
-            ) {
-              const matchesSearch =
-                item.first_name
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase()) ||
-                item.last_name
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase()) ||
-                item.gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.email.toLowerCase().includes(searchTerm.toLowerCase());
-
-              const matchesGender =
-                selectedOption === "all" ||
-                (selectedOption === "male" &&
-                  item.gender.toLowerCase() === "male") ||
-                (selectedOption === "female" &&
-                  item.gender.toLowerCase() === "female") ||
-                (selectedOption === "other" &&
-                  item.gender.toLowerCase() !== "male" &&
-                  item.gender.toLowerCase() !== "female");
-
-              if (!searchTerm || matchesSearch) {
-                if (matchesGender) {
-                  return (
-                    <TableRow key={index}>
-                      <StyledTableCell>
-                        {item.first_name || "-"}
-                      </StyledTableCell>
-                      <StyledTableCell>{item.last_name || "-"}</StyledTableCell>
-                      <StyledTableCell>{item.gender || "-"}</StyledTableCell>
-                      <StyledTableCell>{item.email || "-"}</StyledTableCell>
-                    </TableRow>
-                  );
-                }
-              }
-            }
-            return null;
-          })}
+          {filteredData.length === 0 ? (
+            <TableRow>
+              <StyledTableCell colSpan={4}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: "red",
+                  }}
+                >
+                  No data found.
+                </Typography>
+              </StyledTableCell>
+            </TableRow>
+          ) : (
+            filteredData.map((item, index) => (
+              <TableRow key={index}>
+                <StyledTableCell>{item.first_name || "-"}</StyledTableCell>
+                <StyledTableCell>{item.last_name || "-"}</StyledTableCell>
+                <StyledTableCell>{item.gender || "-"}</StyledTableCell>
+                <StyledTableCell>{item.email || "-"}</StyledTableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

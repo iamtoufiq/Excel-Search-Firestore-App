@@ -1,5 +1,3 @@
-// App.tsx
-
 import React, { useEffect, useRef, useState } from "react";
 import SearchAppBar from "./components/SearchBar";
 import InputFileUpload from "./components/InputFileUpload";

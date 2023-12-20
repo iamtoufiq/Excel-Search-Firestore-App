@@ -80,7 +80,7 @@ export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
             noWrap
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            Excel Search
           </Typography>
           <Search
             sx={{
@@ -102,7 +102,6 @@ export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
               placeholder="Search by name, gender, or email..."
               inputProps={{ "aria-label": "search" }}
             />
-            {/* <CloseIcon onClick={handleClearSearch} /> */}
             {searchInput && <CloseIconWrapper onClick={handleClearSearch} />}
           </Search>
         </Toolbar>

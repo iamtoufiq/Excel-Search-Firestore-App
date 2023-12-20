@@ -37,7 +37,6 @@ const DataContextProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const postData = (data: PostDatatypes[]) => {
-    console.log("postData the data", data);
     addPostsToFirebase(data);
   };
 
