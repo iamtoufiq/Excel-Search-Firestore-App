@@ -7,39 +7,57 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import { Paper } from "@mui/material";
 import { useDataContext } from "../context/DataContext";
+import { styled } from "@mui/system";
 
-const ShowTable = ({ searchTerm }: { searchTerm: string }) => {
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-  const { fetchData, state } = useDataContext();
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  borderRight: `1px solid ${theme.palette.divider}`,
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(0.5),
+  },
+}));
+
+const ShowTable = ({
+  searchTerm,
+  selectedOption,
+}: {
+  searchTerm: string;
+  selectedOption: string;
+}) => {
+  const { state } = useDataContext();
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <StyledTableCell>
               <Typography variant="subtitle1" fontWeight="bold">
                 First Name
               </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="subtitle1" fontWeight="bold">
+            </StyledTableCell>
+            <StyledTableCell>
+              <Typography
+                variant="subtitle1"
+                fontWeight="bold"
+                style={{ width: "fitContent" }}
+              >
                 Last Name
               </Typography>
-            </TableCell>
-            <TableCell>
+            </StyledTableCell>
+            <StyledTableCell>
               <Typography variant="subtitle1" fontWeight="bold">
                 Gender
               </Typography>
-            </TableCell>
-            <TableCell>
+            </StyledTableCell>
+            <StyledTableCell>
               <Typography variant="subtitle1" fontWeight="bold">
                 Email
               </Typography>
-            </TableCell>
-            {/* Add other table headers based on your Excel data */}
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,19 +78,31 @@ const ShowTable = ({ searchTerm }: { searchTerm: string }) => {
                 item.gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.email.toLowerCase().includes(searchTerm.toLowerCase());
 
+              const matchesGender =
+                selectedOption === "all" ||
+                (selectedOption === "male" &&
+                  item.gender.toLowerCase() === "male") ||
+                (selectedOption === "female" &&
+                  item.gender.toLowerCase() === "female") ||
+                (selectedOption === "other" &&
+                  item.gender.toLowerCase() !== "male" &&
+                  item.gender.toLowerCase() !== "female");
+
               if (!searchTerm || matchesSearch) {
-                return (
-                  <TableRow key={index}>
-                    <TableCell>{item.first_name || "-"}</TableCell>
-                    <TableCell>{item.last_name || "-"}</TableCell>
-                    <TableCell>{item.gender || "-"}</TableCell>
-                    <TableCell>{item.email || "-"}</TableCell>
-                  </TableRow>
-                );
+                if (matchesGender) {
+                  return (
+                    <TableRow key={index}>
+                      <StyledTableCell>
+                        {item.first_name || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell>{item.last_name || "-"}</StyledTableCell>
+                      <StyledTableCell>{item.gender || "-"}</StyledTableCell>
+                      <StyledTableCell>{item.email || "-"}</StyledTableCell>
+                    </TableRow>
+                  );
+                }
               }
             }
-
-            // Return null for non-matching or incomplete rows
             return null;
           })}
         </TableBody>

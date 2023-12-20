@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXCpCwpdlegPil_habktJ3ve00CrmSKu0",
-  authDomain: "bank-master-c8112.firebaseapp.com",
-  projectId: "bank-master-c8112",
-  storageBucket: "bank-master-c8112.appspot.com",
-  messagingSenderId: "875175643508",
-  appId: "1:875175643508:web:e0d26b3075eca2dce48421",
+  apiKey: "AIzaSyCyNFeJEWlfWAznEXFS8dURF3YQk7u0zs8",
+  authDomain: "banking-app-8c06c.firebaseapp.com",
+  projectId: "banking-app-8c06c",
+  storageBucket: "banking-app-8c06c.appspot.com",
+  messagingSenderId: "682853843491",
+  appId: "1:682853843491:web:2a3185ca55d0e56ee6a796",
 };
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);

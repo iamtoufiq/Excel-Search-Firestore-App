@@ -6,7 +6,10 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useDataContext } from "../context/DataContext";
 import { PostDatatypes, addPostsToFirebase } from "../utils/firebaseUtils";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
-
+interface InputFileUploadProps {
+  handleRadioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedOption: string;
+}
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -29,9 +32,12 @@ const FullWidthButton = styled(Button)({
   },
 });
 
-const InputFileUpload: React.FC = () => {
-  const { fetchData, postData } = useDataContext();
-
+const InputFileUpload: React.FC<InputFileUploadProps> = ({
+  handleRadioChange,
+  selectedOption,
+}) => {
+  const { fetchData } = useDataContext();
+  console.log("final check ing", selectedOption);
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -49,7 +55,7 @@ const InputFileUpload: React.FC = () => {
         await addPostsToFirebase(excelData);
 
         // Fetch data from Firebase
-        await fetchData();
+        fetchData();
 
         // Clear the input value to allow selecting the same file again
         event.target.value = "";
@@ -80,6 +86,7 @@ const InputFileUpload: React.FC = () => {
         onClick={handleButtonClick}
       >
         Upload file
+        {/* {selectedOption === "male" ? "start" : "end"} */}
       </FullWidthButton>
       <VisuallyHiddenInput
         id="file-input"
@@ -92,8 +99,8 @@ const InputFileUpload: React.FC = () => {
           row
           aria-label="gender"
           name="gender"
-          // value={selectedOption}
-          // onChange={handleRadioChange}
+          value={selectedOption}
+          onChange={handleRadioChange}
         >
           <FormControlLabel value="all" control={<Radio />} label="All" />
           <FormControlLabel value="male" control={<Radio />} label="Male" />

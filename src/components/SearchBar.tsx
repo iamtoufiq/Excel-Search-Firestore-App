@@ -52,7 +52,9 @@ interface SearchAppBarProps {
 
 export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
   const [searchInput, setSearchInput] = useState("");
-
+  const CloseIconWrapper = styled(CloseIcon)({
+    cursor: "pointer",
+  });
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
     onSearch(event.target.value);
@@ -60,11 +62,11 @@ export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
 
   const handleClearSearch = () => {
     setSearchInput("");
-    onSearch(""); // Call the parent component's search function with an empty string to reset the search
+    onSearch("");
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, position: "fixed", width: "100%", zIndex: 1000 }}>
       <AppBar position="static">
         <Toolbar
           sx={{
@@ -100,7 +102,8 @@ export default function SearchAppBar({ onSearch }: SearchAppBarProps) {
               placeholder="Search by name, gender, or email..."
               inputProps={{ "aria-label": "search" }}
             />
-            <CloseIcon onClick={handleClearSearch} />
+            {/* <CloseIcon onClick={handleClearSearch} /> */}
+            {searchInput && <CloseIconWrapper onClick={handleClearSearch} />}
           </Search>
         </Toolbar>
       </AppBar>
