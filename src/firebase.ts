@@ -3,7 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyNFeJEWlfWAznEXFS8dURF3YQk7u0zs8",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "banking-app-8c06c.firebaseapp.com",
   projectId: "banking-app-8c06c",
   storageBucket: "banking-app-8c06c.appspot.com",
