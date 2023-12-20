@@ -11,8 +11,8 @@ import React, { useState } from "react";
 import { Paper } from "@mui/material";
 import { useDataContext } from "../context/DataContext";
 
-const ShowTable = () => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
+const ShowTable = ({ searchTerm }: { searchTerm: string }) => {
+  // const [searchTerm, setSearchTerm] = useState<string>("");
   const { fetchData, state } = useDataContext();
   return (
     <TableContainer component={Paper}>

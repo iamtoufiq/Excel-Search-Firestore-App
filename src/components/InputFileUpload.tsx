@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useDataContext } from "../context/DataContext";
 import { PostDatatypes, addPostsToFirebase } from "../utils/firebaseUtils";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -57,7 +58,14 @@ const InputFileUpload: React.FC = () => {
       reader.readAsBinaryString(file);
     }
   };
-
+  const StyledDiv = styled("div")({
+    display: "flex",
+    "@media (max-width: 600px)": {
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
   const handleButtonClick = () => {
     // Trigger click on the hidden input when the button is clicked
     const fileInput = document.getElementById("file-input");
@@ -65,7 +73,7 @@ const InputFileUpload: React.FC = () => {
   };
 
   return (
-    <>
+    <StyledDiv>
       <FullWidthButton
         variant="contained"
         startIcon={<CloudUploadIcon />}
@@ -79,7 +87,21 @@ const InputFileUpload: React.FC = () => {
         accept=".xlsx"
         onChange={handleFileUpload}
       />
-    </>
+      <div>
+        <RadioGroup
+          row
+          aria-label="gender"
+          name="gender"
+          // value={selectedOption}
+          // onChange={handleRadioChange}
+        >
+          <FormControlLabel value="all" control={<Radio />} label="All" />
+          <FormControlLabel value="male" control={<Radio />} label="Male" />
+          <FormControlLabel value="female" control={<Radio />} label="Female" />
+          <FormControlLabel value="other" control={<Radio />} label="Other" />
+        </RadioGroup>
+      </div>
+    </StyledDiv>
   );
 };
 
