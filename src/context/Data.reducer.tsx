@@ -25,7 +25,7 @@ export const reducer = (state: InitialState, action: Actions): InitialState => {
     case "SET_LOADING":
       return {
         ...state,
-        loading: true,
+        loading: !state.loading,
       };
     case "SET_DATA":
       return {

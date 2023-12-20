@@ -52,65 +52,69 @@ const ShowTable = ({
   });
 
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>
-              <Typography variant="subtitle1" fontWeight="bold">
-                First Name
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography
-                variant="subtitle1"
-                fontWeight="bold"
-                style={{ width: "fitContent" }}
-              >
-                Last Name
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Gender
-              </Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography variant="subtitle1" fontWeight="bold">
-                Email
-              </Typography>
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredData.length === 0 ? (
-            <TableRow>
-              <StyledTableCell colSpan={4}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    color: "red",
-                  }}
-                >
-                  No data found.
-                </Typography>
-              </StyledTableCell>
-            </TableRow>
-          ) : (
-            filteredData.map((item, index) => (
-              <TableRow key={index}>
-                <StyledTableCell>{item.first_name || "-"}</StyledTableCell>
-                <StyledTableCell>{item.last_name || "-"}</StyledTableCell>
-                <StyledTableCell>{item.gender || "-"}</StyledTableCell>
-                <StyledTableCell>{item.email || "-"}</StyledTableCell>
+    <>
+      {!state?.loading && (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    First Name
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    style={{ width: "fitContent" }}
+                  >
+                    Last Name
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Gender
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    Email
+                  </Typography>
+                </StyledTableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableHead>
+            <TableBody>
+              {filteredData.length === 0 ? (
+                <TableRow>
+                  <StyledTableCell colSpan={4}>
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        color: "red",
+                      }}
+                    >
+                      No data found.
+                    </Typography>
+                  </StyledTableCell>
+                </TableRow>
+              ) : (
+                filteredData.map((item, index) => (
+                  <TableRow key={index}>
+                    <StyledTableCell>{item.first_name || "-"}</StyledTableCell>
+                    <StyledTableCell>{item.last_name || "-"}</StyledTableCell>
+                    <StyledTableCell>{item.gender || "-"}</StyledTableCell>
+                    <StyledTableCell>{item.email || "-"}</StyledTableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </>
   );
 };
 

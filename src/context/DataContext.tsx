@@ -29,8 +29,10 @@ const DataContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchData = async () => {
     try {
+      dispatch({ type: "SET_LOADING" });
       const fetchedData = await fetchFirebaseData();
       dispatch({ type: "SET_DATA", payload: fetchedData });
+      dispatch({ type: "SET_LOADING" }); // Set loading back to false
     } catch (error) {
       console.error("Error fetching data:", error);
     }

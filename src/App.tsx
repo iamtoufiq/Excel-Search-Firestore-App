@@ -5,7 +5,7 @@ import { useDataContext } from "./context/DataContext";
 import ShowTable from "./components/ShowTable";
 
 const App: React.FC = () => {
-  const { fetchData } = useDataContext();
+  const { fetchData, state } = useDataContext();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("all");
