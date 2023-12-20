@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import * as XLSX from "xlsx";
 import Button from "@mui/material/Button";
@@ -35,7 +35,7 @@ const InputFileUpload: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
-
+    console.log("this is", "handleFileUpload");
     if (file) {
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -49,6 +49,9 @@ const InputFileUpload: React.FC = () => {
 
         // Fetch data from Firebase
         await fetchData();
+
+        // Clear the input value to allow selecting the same file again
+        event.target.value = "";
       };
 
       reader.readAsBinaryString(file);

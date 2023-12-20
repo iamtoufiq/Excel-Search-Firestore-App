@@ -22,16 +22,21 @@ const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const runOnce = useRef(false);
 
+  // useEffect(() => {
+  //   if (runOnce.current) return;
+  //   runOnce.current = !runOnce.current;
+  //   const fetchFirebaseDataAndSetState = async () => {
+  //     await fetchData();
+  //   };
+
+  //   fetchFirebaseDataAndSetState();
+  // }, [fetchData]);
   useEffect(() => {
-    if (runOnce.current) return;
-    runOnce.current = !runOnce.current;
-    const fetchFirebaseDataAndSetState = async () => {
-      await fetchData();
-    };
-
-    fetchFirebaseDataAndSetState();
+    if (!runOnce.current) {
+      runOnce.current = true;
+      fetchData(); // Fetch data after the component mounts
+    }
   }, [fetchData]);
-
   const handleSearch = () => {
     const filteredData = state?.data?.filter((item) => {
       if (item?.first_name && item?.last_name && item?.gender && item?.email) {
